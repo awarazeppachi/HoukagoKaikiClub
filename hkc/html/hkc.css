@@ -1,0 +1,45 @@
+table{
+  width: 100%;
+}
+@media print {
+    header{
+        display:none;
+    }
+}
+@media screen{
+    header{
+      background:black;
+      color: white;
+      font-size: large;
+      padding: 0.5em;
+      border-radius: 15px;
+      box-shadow: 3px 3px 3px #333;
+      margin: 0.5em;
+    }
+}
+.club_point{
+  padding:0.1em 0.5em;
+}
+.free_point{
+  padding:0.1em 0.5em;
+}
+tr.title th{
+  background: #8AE;
+}
+#left{
+  float:left;
+  left:0;
+  width:19%
+}
+#middle{
+  float:left;
+  width:27%;
+}
+#middle-right{
+  float:left;
+  width:27%;
+}
+#right{
+  float:left;
+  width:27%;
+}
