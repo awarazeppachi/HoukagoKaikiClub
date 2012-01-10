@@ -1,7 +1,7 @@
 <!Doctype html>
 <html>
 <head>
-  <title>放課後怪奇くらぶキャラクターシート[0.2]</title>
+  <title>放課後怪奇くらぶキャラクターシート[0.3]</title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="hkc.js"></script>
   <link rel="stylesheet" href="hkc.css">
@@ -38,6 +38,7 @@
     <option value="16">文芸</option>
     <option value="17">新聞/放送</option>
     <option value="18">美術</option>
+    <option value="19">　　</option>
   </select>
 </td>
 </tr>
@@ -64,7 +65,10 @@
 </div>
 <div id="middle">
 <table>
+<thead>
 <tr><th>技能名</th><th>初期値</th><th>部活</th><th>個性</th><th>合計</th></tr>
+</thead>
+<tbody id="skill_sheet">
 <tr class="title"><th colspan="5">調査・交渉・探偵技能</th></tr>
 <tr><td>言いくるめ</td><td id='pre1'>05</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club1'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof1'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total1'></td></tr>
 <tr><td>説得</td><td id='pre2'>15</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club2'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof2'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total2'></td></tr>
@@ -84,11 +88,15 @@
 <tr><td>医学</td><td id='pre21'>05</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club21'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof21'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total21'></td></tr>
 <tr><td>クトゥルフ<br>神話知識</td><td id='pre35'>00</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club35'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof35'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total35'></td></tr>
 <tr><td>信用</td><td id='pre3'>15</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club3'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof3'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total3'></td></tr>
+</tbody>
 </table>
 </div>
 <div id="middle-right">
 <table>
+<thead>
 <tr><th>技能名</th><th>初期値</th><th>部活</th><th>個性</th><th>合計</th></tr>
+</thead>
+<tbody id="skill_sheet_2">
 <tr class="title"><th colspan="5">学問・技術系技能</th></tr>
 <tr><td>地学</td><td id='pre12'>00</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club12'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof12'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total12'></td></tr>
 <tr><td>生物学</td><td id='pre13'>00</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club13'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof13'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total13'></td></tr>
@@ -105,11 +113,15 @@
 <tr><td>オカルト</td><td id='pre33'>05</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club33'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof33'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total33'></td></tr>
 <tr><td>経理</td><td id='pre36'>10</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club36'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof36'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total36'></td></tr>
 <tr><td>応急手当</td><td id='pre22'>30</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club22'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof22'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total22'></td></tr>
+</tbody>
 </table>
 </div>
 <div id="right">
 <table>
+<thead>
 <tr><th>技能名</th><th>初期値</th><th>部活</th><th>個性</th><th>合計</th></tr>
+</thead>
+<tbody id="skill_sheet_3">
 <tr class="title"><th colspan="5">戦闘・運動系技能</th></tr>
 <tr><td>回避</td><td id='pre24'>00</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club24'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof24'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total24'></td></tr>
 <tr><td>キック</td><td id='pre25'>25</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club25'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof25'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total25'></td></tr>
@@ -129,7 +141,7 @@
 <tr><td>ナビゲート</td><td id='pre43'>10</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club43'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof43'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total43'></td></tr>
 <tr><td>オートバイ</td><td id='pre44'>20</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club44'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof44'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total44'></td></tr>
 <tr><td>芸術</td><td id='pre46'>05</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club46'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof46'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total46'></td></tr>
-
+</tbody>
 </table>
 </body>
 </html>
