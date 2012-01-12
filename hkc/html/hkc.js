@@ -15,7 +15,7 @@ function parameter(){
   $('#SIZ').val(dice(3,6));
   $('#EDU').val(dice(3,6)+3);
   //自動計算
-  calcSubParameterAnsSkillPoint();
+  calcSubParameterAndSkillPoint();
 }
 //  能力値からスキルポイント、副能力値などを計算し設定する
 function calcSubParameterAndSkillPoint()
