@@ -1,8 +1,9 @@
 <!Doctype html>
 <html>
 <head>
-  <title>放課後怪奇くらぶキャラクターシート[0.3]</title>
+  <title>放課後怪奇くらぶキャラクターシート[0.5]</title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.url.js"></script>
   <script type="text/javascript" src="hkc_variable.js"></script>
   <script type="text/javascript" src="hkc_core.js"></script>
   <script type="text/javascript" src="hkc.js"></script>
@@ -10,9 +11,19 @@
 </head>
 <body>
 <header>
-<div><span class="club_point">部活動技能ポイント残り</span><span id="skill_club">0</span><span class="free_point">一般技能ポイント残り</span><span id="skill_free">0</span></div>
+<div>
+  <span class="club_point">部活動技能ポイント残り</span>
+  <span id="skill_club">0</span>
+  <span class="free_point">一般技能ポイント残り</span>
+  <span id="skill_free">0</span>
+
+</div>
 <hr>
 <input type="button" value="能力値を振る" onClick="parameter()">
+<input type="button" value="セーブ" onClick="save()">
+<input type="button" value="ロード" onClick="load()">
+<input type="text" value="" id="sheeturl" size="80">
+<input type="hidden" value="" id="CODE">
 </header>
 <div id="left">
 <table class="sheet" id="profile">

@@ -15,6 +15,11 @@ function parameter(){
   $('#SIZ').val(dice(3,6));
   $('#EDU').val(dice(3,6)+3);
   //自動計算
+  calcSubParameterAnsSkillPoint();
+}
+//  能力値からスキルポイント、副能力値などを計算し設定する
+function calcSubParameterAndSkillPoint()
+{
   onKeyUpInt();
   onKeyUpPow();
   onKeyUpEdu();
@@ -115,5 +120,3 @@ function getArtisticSkillRow(name, default_point, id)
 {
   return "<tr id='row" + id + "'><td>" + name + "</td><td id='pre" + id + "'>" + default_point + "</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club" + id + "'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof" + id + "'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total" + id + "'></td></tr>";
 }
-
-
