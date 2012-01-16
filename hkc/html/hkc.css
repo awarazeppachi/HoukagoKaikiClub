@@ -17,14 +17,17 @@ table{
       margin: 0.5em;
     }
 }
-.club_point{
+.club_point_title{
   padding:0.1em 0.5em;
 }
-.free_point{
+.free_point_title{
   padding:0.1em 0.5em;
 }
 tr.title th{
-  background: #8AE;
+  background:#AEC;
+  text-align: left;
+  padding: 0.2em;
+  border-bottom: 1px #6A9 solid;
 }
 #left{
   float:left;
