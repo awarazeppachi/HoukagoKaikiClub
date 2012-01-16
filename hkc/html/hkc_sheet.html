@@ -1,0 +1,123 @@
+<!Doctype html>
+<html>
+<head>
+  <title>卓M@s 放課後怪奇くらぶキャラクターシート[Ver 0.1]</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.url.js"></script>
+  <script type="text/javascript" src="hkc_core.js"></script>
+  <link rel="stylesheet" href="hkc.css">
+</head>
+<body>
+<header>
+<hr>
+<input type="button" value="セーブ" onClick="save()">
+<input type="button" value="ロード" onClick="load()">
+<input type="text" value="" id="sheeturl" size="80">
+<input type="hidden" value="" id="CODE">
+</header>
+<div id="left">
+<table class="sheet" id="profile">
+    <tr><th>名前</th><td><input type="text" size="15" maxlength="15" id="name"></td></tr>
+    <tr><th>学年</th><td><input type="text" size="10" maxlength="10" id="grade"></td></tr>
+</table>
+<table class="sheet" id="parameter">
+  <tr>
+    <th>STR</th><td><input type="text" size="3" maxlength="3" id="STR"></td><th>幸運</th><td><input type="text" size="3" maxlength="3" id="LUC" readonly="readonly"></td>
+  <tr></tr>
+    <th>DEX</th><td><input type="text" size="3" maxlength="3" id="DEX"></td><th>知識</th><td><input type="text" size="3" maxlength="3" id="KNW" readonly="readonly"></td>
+  <tr></tr>
+    <th>INT</th><td><input type="text" size="3" maxlength="3" id="INT" onKeyUp="onKeyUpInt()"></td><th>アイデア</th><td><input type="text" size="3" maxlength="3" id="IDE" readonly="readonly"></td>
+  <tr></tr>
+    <th>CON</th><td><input type="text" size="3" maxlength="3" id="CON" onKeyUp="calcHP()"></td><th>最大HP</th><td><input type="text" size="3" maxlength="3" id="HP" readonly="readonly"></td>
+  <tr></tr>
+    <th>APP</th><td><input type="text" size="3" maxlength="3" id="APP"></td> <th>最大MP</th><td><input type="text" size="3" maxlength="3" id="MP" readonly="readonly"></td>
+  <tr></tr>
+    <th>POW</th><td><input type="text" size="3" maxlength="3" id="POW" onKeyUp="onKeyUpPow()"></td><th>最大正気度</th><td><input type="text" size="3" maxlength="3" id="SAN" readonly="readonly"></td>
+  <tr></tr>
+    <th>SIZ</th><td><input type="text" size="3" maxlength="3" id="SIZ" onKeyUp="calcHP()"></td><th>現在正気度</th><td><input type="text" size="3" maxlength="3" id="SAN_NOW"></td>
+  <tr></tr>
+    <th>EDU</th><td><input type="text" size="3" maxlength="3" id="EDU" onKeyUp="onKeyUpEdu()"></td>
+  </tr>  
+</table>
+</div>
+<div id="middle">
+<table>
+<thead>
+<tr><th>技能名</th><th>作成直後</th><th>成長</th><th>合計</th></tr>
+</thead>
+<tbody id="skill_sheet">
+<tr><td>言いくるめ</td><td id='pre1'></td><td><input type="text" size="2" maxlength="2"  id="growth1"</td></td><td id="total1"></td></tr>
+<tr><td>説得</td><td id='pre2'></td><td><input type="text" size="2" maxlength="2"  id="growth2"></td></td><td id="total2"></td></tr>
+<tr><td>隠す</td><td id='pre4'></td><td><input type="text" size="2" maxlength="2"  id="growth4"></td></td><td id="total4"></td></tr>
+<tr><td>隠れる</td><td id='pre5'></td><td><input type="text" size="2" maxlength="2"  id="growth5"></td></td><td id="total5"></td></tr>
+<tr><td>聞き耳</td><td id='pre6'></td><td><input type="text" size="2" maxlength="2"  id="growth6"></td></td><td id="total6"></td></tr>
+<tr><td>目星</td><td id='pre7'></td><td><input type="text" size="2" maxlength="2"  id="growth7"></td></td><td id="total7"></td></tr>
+<tr><td>図書館</td><td id='pre29'></td><td><input type="text" size="2" maxlength="2"  id="growth29"></td></td><td id="total29"></td></tr>
+<tr><td>追跡</td><td id='pre8'></td><td><input type="text" size="2" maxlength="2"  id="growth8"></td></td><td id="total8"></td></tr>
+<tr><td>忍び歩き</td><td id='pre9'></td><td><input type="text" size="2" maxlength="2"  id="growth9"></td></td><td id="total9"></td></tr>
+<tr><td>写真術</td><td id='pre10'></td><td><input type="text" size="2" maxlength="2"  id="growth10"></td></td><td id="total10"></td></tr>
+<tr><td>錠前</td><td id='pre11'></td><td><input type="text" size="2" maxlength="2"  id="growth11"></td></td><td id="total11"></td></tr>
+<tr><td>自動車</td><td id='pre45'></td><td><input type="text" size="2" maxlength="2"  id="growth45"></td></td><td id="total45"></td></tr>
+<tr><td>精神分析</td><td id='pre23'></td><td><input type="text" size="2" maxlength="2"  id="growth23"></td></td><td id="total23"></td></tr>
+<tr><td>法律</td><td id='pre34'></td><td><input type="text" size="2" maxlength="2"  id="growth34"></td></td><td id="total34"></td></tr>
+<tr><td>医学</td><td id='pre21'></td><td><input type="text" size="2" maxlength="2"  id="growth21"></td></td><td id="total21"></td></tr>
+<tr><td>クトゥルフ<br>神話知識</td><td id='pre35'></td><td><input type="text" size="2" maxlength="2"  id="growth35"></td></td><td id="total35"></td></tr>
+<tr><td>信用</td><td id='pre3'></td><td><input type="text" size="2" maxlength="2"  id="growth3"></td></td><td id="total3"></td></tr>
+</tbody>
+</table>
+</div>
+<div id="middle-right">
+<table>
+<thead>
+<tr><th>技能名</th><th>作成直後</th><th>成長</th><th>合計</th></tr>
+</thead>
+<tbody id="skill_sheet_2">
+<tr><td>地学</td><td id='pre12'></td><td><input type="text" size="2" maxlength="2"  id="growth12"></td></td><td id="total12"></td></tr>
+<tr><td>生物学</td><td id='pre13'></td><td><input type="text" size="2" maxlength="2"  id="growth13"></td></td><td id="total13"></td></tr>
+<tr><td>物理学</td><td id='pre14'></td><td><input type="text" size="2" maxlength="2"  id="growth14"></td></td><td id="total14"></td></tr>
+<tr><td>化学</td><td id='pre15'></td><td><input type="text" size="2" maxlength="2"  id="growth15"></td></td><td id="total15"></td></tr>
+<tr><td>薬学</td><td id='pre16'></td><td><input type="text" size="2" maxlength="2"  id="growth16"></td></td><td id="total16"></td></tr>
+<tr><td>コンピュータ</td><td id='pre17'></td><td><input type="text" size="2" maxlength="2"  id="growth17"></td></td><td id="total17"></td></tr>
+<tr><td>電気修理</td><td id='pre18'></td><td><input type="text" size="2" maxlength="2"  id="growth18"></td></td><td id="total18"></td></tr>
+<tr><td>電子工学</td><td id='pre19'></td><td><input type="text" size="2" maxlength="2"  id="growth19"></td></td><td id="total19"></td></tr>
+<tr><td>機械修理</td><td id='pre20'></td><td><input type="text" size="2" maxlength="2"  id="growth20"></td></td><td id="total20"></td></tr>
+<tr><td>考古学</td><td id='pre30'></td><td><input type="text" size="2" maxlength="2"  id="growth30"></td></td><td id="total30"></td></tr>
+<tr><td>心理学</td><td id='pre31'></td><td><input type="text" size="2" maxlength="2"  id="growth31"></td></td><td id="total31"></td></tr>
+<tr><td>歴史</td><td id='pre32'></td><td><input type="text" size="2" maxlength="2"  id="growth32"></td></td><td id="total32"></td></tr>
+<tr><td>オカルト</td><td id='pre33'></td><td><input type="text" size="2" maxlength="2"  id="growth33"></td></td><td id="total33"></td></tr>
+<tr><td>経理</td><td id='pre36'></td><td><input type="text" size="2" maxlength="2"  id="growth37"></td></td><td id="total37"></td></tr>
+<tr><td>応急手当</td><td id='pre22'></td><td><input type="text" size="2" maxlength="2"  id="growth22"></td></td><td id="total22"></td></tr>
+</tbody>
+</table>
+</div>
+<div id="right">
+<table>
+<thead>
+<tr><th>技能名</th><th>作成直後</th><th>成長</th><th>合計</th></tr>
+</thead>
+<tbody id="skill_sheet_3">
+<tr><td>回避</td><td id='pre24'></td><td><input type="text" size="2" maxlength="2"  id="growth24"></td></td><td id="total24"></td></tr>
+<tr><td>キック</td><td id='pre25'></td><td><input type="text" size="2" maxlength="2"  id="growth25"></td></td><td id="total25"></td></tr>
+<tr><td>パンチ</td><td id='pre26'></td><td><input type="text" size="2" maxlength="2"  id="growth26"></td></td><td id="total26"></td></tr>
+<tr><td>格闘術</td><td id='pre27'></td><td><input type="text" size="2" maxlength="2"  id="growth27"></td></td><td id="total27"></td></tr>
+<tr><td>頭突き</td><td id='pre28'></td><td><input type="text" size="2" maxlength="2"  id="growth28"></td></td><td id="total28"></td></tr>
+<tr><td>拳銃</td><td id='pre47'></td><td><input type="text" size="2" maxlength="2"  id="growth47"></td></td><td id="total47"></td></tr>
+<tr><td>棒状武器</td><td id='pre48'></td><td><input type="text" size="2" maxlength="2"  id="growth48"></td></td><td id="total48"></td></tr>
+<tr><td>ナイフ</td><td id='pre49'></td><td><input type="text" size="2" maxlength="2"  id="growth49"></td></td><td id="total49"></td></tr>
+<tr><td>泳ぐ</td><td id='pre39'></td><td><input type="text" size="2" maxlength="2"  id="growth39"></td></td><td id="total39"></td></tr>
+<tr><td>投げる</td><td id='pre40'></td><td><input type="text" size="2" maxlength="2"  id="growth40"></td></td><td id="total40"></td></tr>
+<tr><td>登攀</td><td id='pre41'></td><td><input type="text" size="2" maxlength="2"  id="growth41"></td></td><td id="total41"></td></tr>
+<tr><td>ジャンプ</td><td id='pre42'></td><td><input type="text" size="2" maxlength="2"  id="growth42"></td></td><td id="total42"></td></tr>
+<tr><td>母国語</td><td id='pre37'></td><td><input type="text" size="2" maxlength="2"  id="growth37"></td></td><td id="total37"></td></tr>
+<tr><td>他の言語</td><td id='pre38'></td><td><input type="text" size="2" maxlength="2"  id="growth38"></td></td><td id="total38"></td></tr>
+<tr><td>ナビゲート</td><td id='pre43'></td><td><input type="text" size="2" maxlength="2"  id="growth43"></td></td><td id="total43"></td></tr>
+<tr><td>オートバイ</td><td id='pre44'></td><td><input type="text" size="2" maxlength="2"  id="growth44"></td></td><td id="total44"></td></tr>
+<tr><td>芸術</td><td id='pre46'></td><td><input type="text" size="2" maxlength="2"  id="growth46"></td></td><td id="total46"></td></tr>
+<tr><td>Vi</td><td id='pre50'></td><td><input type="text" size="2" maxlength="2"  id="growth50"></td></td><td id="total50"></td></tr>
+<tr><td>Da</td><td id='pre51'></td><td><input type="text" size="2" maxlength="2"  id="growth51"></td></td><td id="total51"></td></tr>
+<tr><td>Vo</td><td id='pre52'></td><td><input type="text" size="2" maxlength="2"  id="growth52"></td></td><td id="total52"></td></tr>
+</tbody>
+</table>
+</body>
+</html>
+

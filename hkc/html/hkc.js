@@ -120,3 +120,89 @@ function getArtisticSkillRow(name, default_point, id)
 {
   return "<tr id='row" + id + "'><td>" + name + "</td><td id='pre" + id + "'>" + default_point + "</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club" + id + "'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof" + id + "'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total" + id + "'></td></tr>";
 }
+//  onReady go!
+$(document).ready(function(){
+    //  URLにキーコードが含まれている場合はロードを行う
+    var url = $.url();
+    var param = $.url().param(); 
+    if (param.code) {
+        $('#sheeturl').val('?code=' + param.code);
+        $('#CODE').val(param.code);
+        load();
+    }
+    clubSkillPointLock();
+});
+//	∩（＞ヮ＜）q＜セーブしよー！
+function save()
+{
+  var json_save = new Object();
+  json_save['profile'] = {
+    'name' : $('#name').val(),
+    'grade':  $('#grade').val(),
+    'club' : $('#club option:selected').val()
+  };
+  json_save['parameter'] = {
+    'STR' : $('#STR').val(),
+    'DEX' : $('#DEX').val(),
+    'INT' : $('#INT').val(),
+    'CON' : $('#CON').val(),
+    'APP' : $('#APP').val(),
+    'POW' : $('#POW').val(),
+    'SIZ' : $('#SIZ').val(),
+    'EDU' : $('#EDU').val()
+  };
+  json_save['skill'] = new Object();
+  for (i = 1;i<=skill_num;i++) {
+    json_save['skill'][i] = new Object();
+    json_save['skill'][i]['club'] = $('#club'+i).val();
+    json_save['skill'][i]['prof'] = $('#prof'+i).val();
+    json_save['skill'][i]['total'] = $('#total'+i).val();
+  };
+  $.ajax({
+    type : 'POST',
+    url  : './hkc_data.cgi?dt=ds',
+    data : 'parameter=' + JSON.stringify(json_save),
+    dataType: 'text',
+    success: function(code) {
+     alert("∩（＞ヮ＜）q＜セーブしたよーー！");
+     var url = $.url();
+     $('#sheeturl').val('?code=' + code);
+     $('#CODE').val(code);    
+    }
+  });
+}
+function load()
+{
+  var code = $('#CODE').val();
+  if (code) {
+    $.ajax({
+      type: 'GET',
+      url: './hkc_data.cgi?dt=dl&k=' + code,
+      dataType: 'json',
+      success: function(data) {
+        $('#name').val(data.profile.name);
+        $('#grade').val(data.profile.grade);
+        $('#club').val(data.profile.club);
+        markUpSkill();
+    	// 能力値	
+        $('#STR').val(data.parameter.STR);
+        $('#DEX').val(data.parameter.DEX);
+        $('#INT').val(data.parameter.INT);
+        $('#CON').val(data.parameter.CON);
+        $('#APP').val(data.parameter.APP);
+        $('#POW').val(data.parameter.POW);
+        $('#SIZ').val(data.parameter.SIZ);
+        $('#EDU').val(data.parameter.EDU);
+        calcSubParameterAndSkillPoint();
+        // SKILL
+        for(id in data.skill) {
+	    var skill = data.skill[id];
+	    $('#club' + id).val(skill.club);
+            $('#prof' + id).val(skill.prof);
+            $('#total' + id).val(skill.total);
+        }
+    	alert('∩（＞ヮ＜）q＜ロードしたよーー！');
+      }
+    });
+  }
+}
