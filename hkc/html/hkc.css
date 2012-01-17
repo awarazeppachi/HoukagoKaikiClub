@@ -7,7 +7,7 @@ table{
     }
 }
 @media screen{
-    header{
+    header#create{
       background:black;
       color: white;
       font-size: large;
@@ -15,6 +15,22 @@ table{
       border-radius: 15px;
       box-shadow: 3px 3px 3px #333;
       margin: 0.5em;
+    }
+    header#takusheet{
+      background:black;
+      color: white;
+      margin:0;
+      padding: 0.1em;
+    }
+    header#takusheet input {
+	    line-height: 3em; 
+	    padding-top: 3px;
+	    padding-right: 1em;
+	    padding-bottom: 3px;
+	    padding-left: 1em;
+        background:#EEF;
+        color:black;
+        border:#AAC 1px solid;
     }
 }
 .club_point_title{
@@ -45,4 +61,13 @@ tr.title th{
 #right{
   float:left;
   width:27%;
+}
+.innocentblue{
+    background:#EEF;
+}
+.sprashred{
+    background:#FEE;
+}
+.neuegreen{
+    background:#EFE;
 }

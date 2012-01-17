@@ -23,6 +23,7 @@ function calcSubParameterAndSkillPoint()
   onKeyUpInt();
   onKeyUpPow();
   onKeyUpEdu();
+  onKeyUpDex();
   calcHP();
   calcMP();
   calcSkillClub();

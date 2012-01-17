@@ -6,6 +6,7 @@ function onKeyUpInt(){setSubParameter('#INT', '#IDE');calcFreePoint();};
 function onKeyUpPow(){setSubParameter('#POW', '#SAN');setSubParameter('#POW', '#LUC');calcMP();};
 // [EDU]を計算。
 function onKeyUpEdu(){setSubParameter('#EDU', '#KNW');calcSkillClub();};
+function onKeyUpDex(){$('#pre24').html($('#DEX').val() * 2);};
 // [HP]を計算
 function calcHP(){
   var hp = Math.ceil( ($('#CON').val() * 1 +$('#SIZ').val() * 1)/2);

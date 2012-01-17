@@ -13,6 +13,9 @@ exit;
 sub data_save
 {
   my $key_code = md5_hex(time());
+  if ($main::cgi->url_param('k')) {
+    $key_code = $main::cgi->url_param('k');
+  }
   # 壮絶に酷い処理なので後で直すこと
   open my $file, ">" , getDataFileName($key_code);
   print $file $main::cgi->param('parameter');

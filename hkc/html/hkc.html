@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="hkc.css">
 </head>
 <body>
-<header>
+<header id="create">
 <div>
   <span class="club_point_title">部活動技能ポイント残り</span>
   <span id="skill_club">0</span>
@@ -59,7 +59,7 @@
   <tr>
     <th>STR</th><td><input type="text" size="3" maxlength="3" id="STR"></td><th>幸運</th><td><input type="text" size="3" maxlength="3" id="LUC" readonly="readonly"></td>
   <tr></tr>
-    <th>DEX</th><td><input type="text" size="3" maxlength="3" id="DEX"></td><th>知識</th><td><input type="text" size="3" maxlength="3" id="KNW" readonly="readonly"></td>
+    <th>DEX</th><td><input type="text" size="3" maxlength="3" id="DEX" onKeyUp="onKeyUpDex()"></td><th>知識</th><td><input type="text" size="3" maxlength="3" id="KNW" readonly="readonly"></td>
   <tr></tr>
     <th>INT</th><td><input type="text" size="3" maxlength="3" id="INT" onKeyUp="onKeyUpInt()"></td><th>アイデア</th><td><input type="text" size="3" maxlength="3" id="IDE" readonly="readonly"></td>
   <tr></tr>
