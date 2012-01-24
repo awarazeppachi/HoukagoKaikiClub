@@ -6,38 +6,54 @@ $main::data_dir = './data';
 $main::cgi = new CGI;
 
 my  $datatype = $main::cgi->url_param('dt');
-print "Content-Type:text/plain\n\n";
-print 'dl' eq $datatype ? data_load() : 'ds' eq $datatype ? data_save() : '';
+print "Content-Type:text/plain\n\n";        #   Q.CGI.pmでナンデ書かないの? A.面倒
+print 'dl' eq $datatype ? load() : 'ds' eq $datatype ? save() : '';
 exit;
 #---------------------------------------------------
-sub data_save
+sub save
 {
-  my $key_code = md5_hex(time());
-  if ($main::cgi->url_param('k')) {
-    $key_code = $main::cgi->url_param('k');
+  my ($key_code, $password, $dataname) = getParameter();
+  if (('' eq $key_code) or ('' eq $password) or ('' eq $dataname)) {
+    return "{'status': '0'}";
+  } else {
+    datasave($keycode, $password, $dataname, $contents);
+    return "{'status': '1'}";
   }
-  # 壮絶に酷い処理なので後で直すこと
-  open my $file, ">" , getDataFileName($key_code);
-  print $file $main::cgi->param('parameter');
-  close $file;
-  return $key_code;
 }
-sub data_load
+sub load
 {
-  my $key_code = $main::cgi->param('k');
-  print STDERR  "KEYCODE:" . $key_code . "\n";
+  my ($key_code, $password, $dataname) = getParameter();
   #いくら何でも雑すぎるでしょここ
   my $filename = getDataFileName($key_code);
-  print STDERR "FILENAME:" . $filename . "\n";
-  if (-e $filename) {
-    open $file, '<', $filename;
-    my   $data = <$file>;
-    close $file;
-    print STDERR "DATA:" . $data . "\n";
+
+
+}
+sub dataload
+{
+  my ($filename, $password, $dataname) = @_;
+  open $file, '<', $filename;
+  my   $data = <$file>;
+  close $file;  
+  my ($password_md5, $dataname_md5, $contents) = split("\e", $data);
+  if ( ($password_md5 eq md5_hex($password)) and ($dataname_md5 eq md5_hex($dataname)) {
     return $data;
   } else {
-    return "{'status':'not_found'}";
-  }
+    return undef;
+  } 
+}
+sub datasave
+{
+  my ($keycode, $password, $dataname, $contents) = @_;
+  open my $file, ">" , getDataFileName($keycode);
+  print $file join("\e", md5_hex($password), md5_hex($dataname), $contents);
+  close $file;  
+}
+sub getParameter
+{
+  my $key_code = $main::cgi->param('k');
+  my $password = $main::cgi->param('p');
+  my $dataname = $main::cgi->param('n');
+  return ($key_code, $password, $dataname);
 }
 sub getDataFileName
 {
