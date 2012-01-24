@@ -71,3 +71,8 @@ tr.title th{
 .neuegreen{
     background:#EFE;
 }
+.dialog{
+    display: none;
+    background:#FEE;
+    width: 600px;
+}

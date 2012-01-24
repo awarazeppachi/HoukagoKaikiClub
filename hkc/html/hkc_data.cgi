@@ -12,48 +12,42 @@ exit;
 #---------------------------------------------------
 sub save
 {
-  my ($key_code, $password, $dataname) = getParameter();
-  if (('' eq $key_code) or ('' eq $password) or ('' eq $dataname)) {
-    return "{'status': '0'}";
-  } else {
-    datasave($keycode, $password, $dataname, $contents);
-    return "{'status': '1'}";
-  }
+  my ($dataname, $password) = getParameter();
+  eval{datasave($password, $dataname, $main::cgi->param('parameter'))};
+  if($@){return '{"status" : "0"}'};
+  return '{"status" : "1"}';
 }
 sub load
 {
-  my ($key_code, $password, $dataname) = getParameter();
-  #いくら何でも雑すぎるでしょここ
-  my $filename = getDataFileName($key_code);
-
-
+  my ($dataname, $password) = getParameter();
+  my $filename = getDataFileName($dataname);
+  return dataload($filename, $password);
 }
 sub dataload
 {
-  my ($filename, $password, $dataname) = @_;
+  my ($filename, $password) = @_;
   open $file, '<', $filename;
   my   $data = <$file>;
   close $file;  
-  my ($password_md5, $dataname_md5, $contents) = split("\e", $data);
-  if ( ($password_md5 eq md5_hex($password)) and ($dataname_md5 eq md5_hex($dataname)) {
-    return $data;
+  my ($password_md5, $contents) = split("\e", $data);
+  if ($password_md5 eq md5_hex($password)) {
+    return $contents;
   } else {
     return undef;
   } 
 }
 sub datasave
 {
-  my ($keycode, $password, $dataname, $contents) = @_;
-  open my $file, ">" , getDataFileName($keycode);
-  print $file join("\e", md5_hex($password), md5_hex($dataname), $contents);
+  my ($password, $dataname, $contents) = @_;
+  open my $file, ">" , getDataFileName($dataname);
+  print $file join("\e", md5_hex($password), $contents);
   close $file;  
 }
 sub getParameter
 {
-  my $key_code = $main::cgi->param('k');
-  my $password = $main::cgi->param('p');
   my $dataname = $main::cgi->param('n');
-  return ($key_code, $password, $dataname);
+  my $password = $main::cgi->param('p');
+  return ($dataname, $password);
 }
 sub getDataFileName
 {

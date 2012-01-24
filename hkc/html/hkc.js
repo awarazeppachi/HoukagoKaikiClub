@@ -136,6 +136,30 @@ $(document).ready(function(){
 //	∩（＞ヮ＜）q＜セーブしよー！
 function save()
 {
+  $('#save_dialog').dialog({
+    position: [100, 150],
+    width: 400,
+    modal: true,
+    resizable: false,
+    draggable: false,
+    title: "∩（＞ヮ＜）q＜セーブするよーー！",
+    buttons: {
+        "セーブする" : function(){
+            if ('' != $('#data_password').val() && '' != $('#data_name').val()) {
+                execute_save();
+                $(this).dialog('close');
+            } else {
+                alert("∩（＞ヮ＜）q＜シート名とパスワードがないよー！");
+            }
+        },
+        "やめた" : function() {
+                $(this).dialog('close');
+        },
+    }
+  });
+}
+function execute_save()
+{
   var json_save = new Object();
   json_save['profile'] = {
     'name' : $('#name').val(),
@@ -162,23 +186,47 @@ function save()
   $.ajax({
     type : 'POST',
     url  : './hkc_data.cgi?dt=ds',
-    data : 'parameter=' + JSON.stringify(json_save),
-    dataType: 'text',
+    data : 'n=' + $('#data_name').val() + '&p=' + $('#data_password').val() + '&parameter=' + JSON.stringify(json_save) ,
+    dataType: 'json',
     success: function(code) {
-     alert("∩（＞ヮ＜）q＜セーブしたよーー！");
-     var url = $.url();
-     $('#sheeturl').val('?code=' + code);
-     $('#CODE').val(code);    
+     if('1' == code.status) {
+         alert("∩（＞ヮ＜）q＜セーブしたよーー！");
+     } else {
+         alert("∩（＞ヮ＜）q＜セーブできなかったよーー！");
+     }
     }
   });
 }
 function load()
 {
-  var code = $('#CODE').val();
-  if (code) {
+  $('#save_dialog').dialog({
+    position: [100, 150],
+    width: 400,
+    modal: true,
+    resizable: false,
+    draggable: false,
+    title: "∩（＞ヮ＜）q＜ロードするよーー！",
+    buttons: {
+        "ロードする" : function(){
+            if ('' != $('#data_password').val() && '' != $('#data_name').val()) {
+                execute_load();
+                $(this).dialog('close');
+            } else {
+                alert("∩（＞ヮ＜）q＜シート名とパスワードがないよー！");
+            }
+        },
+        "やめた" : function() {
+                $(this).dialog('close');
+        },
+    }
+  });
+}
+function execute_load()
+{
     $.ajax({
-      type: 'GET',
-      url: './hkc_data.cgi?dt=dl&k=' + code,
+      type: 'POST',
+      url: './hkc_data.cgi?dt=dl',
+      data: 'n=' + $('#data_name').val() + '&p=' + $('#data_password').val(),
       dataType: 'json',
       success: function(data) {
         $('#name').val(data.profile.name);
@@ -205,5 +253,4 @@ function load()
     	alert('∩（＞ヮ＜）q＜ロードしたよーー！');
       }
     });
-  }
 }

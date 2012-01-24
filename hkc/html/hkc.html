@@ -2,12 +2,18 @@
 <html>
 <head>
   <title>放課後怪奇くらぶキャラクター作成支援ツール</title>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://www.google.com/jsapi"></script>
+  <!-- load jQuery -->
+  <script type="text/javascript">
+    google.load('jquery', '1');
+    google.load('jqueryui', '1');
+  </script>
   <script type="text/javascript" src="jquery.url.js"></script>
   <script type="text/javascript" src="hkc_variable.js"></script>
   <script type="text/javascript" src="hkc_core.js"></script>
   <script type="text/javascript" src="hkc.js"></script>
   <link rel="stylesheet" href="hkc.css">
+  <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/blitzer/jquery-ui.css" rel="stylesheet" />
 </head>
 <body>
 <header id="create">
@@ -16,7 +22,6 @@
   <span id="skill_club">0</span>
   <span class="free_point_title">一般技能ポイント残り</span>
   <span id="skill_free">0</span>
-
 </div>
 <hr>
 <input type="button" value="能力値を振る" onClick="parameter()">
@@ -25,6 +30,10 @@
 <input type="text" value="" id="sheeturl" size="80">
 <input type="hidden" value="" id="CODE">
 </header>
+<div class="dialog" id="save_dialog">
+    シート名   <input type="text" id="data_name" /><br>
+    パスワード <input type="password" id="data_password" />
+</div>
 <div id="left">
 <table class="sheet" id="profile">
 <tr><th>名前</th><td><input type="text" size="15" maxlength="15" id="name"></td></tr>
