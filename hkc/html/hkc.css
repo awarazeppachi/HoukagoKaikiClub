@@ -5,6 +5,13 @@ table{
     header{
         display:none;
     }
+    .sheet input {
+        border: 0;
+    }
+    .skillsheet td input{
+        border: 0;
+    }
+
 }
 @media screen{
     header#create{
@@ -75,4 +82,7 @@ tr.title th{
     display: none;
     background:#FEE;
     width: 600px;
+}
+.skillsheet td{
+    border-bottom: 1px solid black;
 }

@@ -9,10 +9,20 @@
     google.load('jquery', '1');
     google.load('jqueryui', '1');
   </script>
-  <script type="text/javascript" src="jquery.url.js"></script>
   <script type="text/javascript" src="hkc_variable.js"></script>
   <script type="text/javascript" src="hkc_core.js"></script>
   <script type="text/javascript" src="hkc.js"></script>
+  <script type="text/javascript">
+    // onReady!
+    $(document).ready(function(){
+        for (index in club_list) {
+            var option = $('<option>');
+            option.val(index);
+            option.text(club_list[index]);
+            $('#club').append(option);
+        }
+    });
+  </script>
   <link rel="stylesheet" href="hkc.css">
   <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/blitzer/jquery-ui.css" rel="stylesheet" />
 </head>
@@ -28,8 +38,6 @@
 <input type="button" value="能力値を振る" onClick="parameter()">
 <input type="button" value="セーブ" onClick="save()">
 <input type="button" value="ロード" onClick="load()">
-<input type="text" value="" id="sheeturl" size="80">
-<input type="hidden" value="" id="CODE">
 </header>
 <div class="dialog" id="save_dialog">
     シート名   <input type="text" id="data_name" /><br>
@@ -42,25 +50,6 @@
 <tr><th>部活動</th><td>
   <select id="club" onChange="markUpSkill()">
     <option>部活を選んでね</option>
-    <option value="0">生物</option>
-    <option value="1">物理</option>
-    <option value="2">化学</option>
-    <option value="3">体操</option>
-    <option value="4">柔道</option>
-    <option value="5">空手</option>
-    <option value="6">剣道</option>
-    <option value="7">野球</option>
-    <option value="8">陸上</option>
-    <option value="9">サッカー</option>
-    <option value="10">テニス</option>
-    <option value="11">水泳</option>
-    <option value="12">生徒会</option>
-    <option value="13">写真</option>
-    <option value="14">吹奏楽</option>
-    <option value="15">軽音楽</option>
-    <option value="16">文芸</option>
-    <option value="17">新聞/放送</option>
-    <option value="18">美術</option>
   </select>
 </td>
 </tr>
@@ -86,7 +75,7 @@
 </table>
 </div>
 <div id="middle">
-<table>
+<table class="skillsheet">
 <thead>
 <tr><th>技能名</th><th>初期値</th><th>部活</th><th>個性</th><th>合計</th></tr>
 </thead>
@@ -114,7 +103,7 @@
 </table>
 </div>
 <div id="middle-right">
-<table>
+<table class="skillsheet">
 <thead>
 <tr><th >技能名</th><th >初期値</th><th >部活</th><th >個性</th><th >合計</th></tr>
 </thead>
@@ -139,7 +128,7 @@
 </table>
 </div>
 <div id="right">
-<table>
+<table class="skillsheet">
 <thead>
 <tr><th >技能名</th><th >初期値</th><th >部活</th><th >個性</th><th >合計</th></tr>
 </thead>

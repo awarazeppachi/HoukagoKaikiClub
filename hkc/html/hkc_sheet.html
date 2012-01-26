@@ -2,160 +2,45 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>卓M@s 放課後怪奇くらぶキャラクターシート[Ver 0.1]</title>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <title>卓M@s 放課後怪奇くらぶキャラクターシート[Ver 0.5]</title>
+  <script src="http://www.google.com/jsapi"></script>
+  <!-- load jQuery -->
+  <script type="text/javascript">
+    google.load('jquery', '1');
+    google.load('jqueryui', '1');
+  </script>
+  <script type="text/javascript" src="hkc_variable.js"></script>
   <script type="text/javascript" src="hkc_core.js"></script>
-  <link rel="stylesheet" href="hkc.css">
-  <script type="text/javascript" language="JavaScript">
-    //  動的にイベントを作成する
-    function init_create_event()
-    {
-        // HTMLを少しでも軽くしたかっただけなんだ、すまない。。。
-        for (var id=1;id<=52;id++) {$('#growth'+id).change(function(){calc_total()});}
-    }
-    function calc_total()
-    {
-        for (var id=1;id<=52;id++) {$('#total'+id).html($('#growth'+id).val() * 1 + $('#pre' + id).html()*1)};
-    }
-    //  キャラクター作成支援ツールで作ったデータを読み込む
-    function init_load()
-    {
-        key_code = window.prompt('セーブしたデータのキー番号を入力して下さい');
-        $.ajax({
-            type: 'GET',
-            url: './hkc_data.cgi?dt=dl&k=' + key_code,
-            dataType: 'json',
-            success: function(data) {
-               if (!data.profile){alert('fail')};
-                //  データを取得できたので涼ちんハグしたい
-                $('#name').val(data.profile.name);
-                $('#grade').val(data.profile.grade);
-                $('#club').val(data.profile.club);
-            	// 能力値	
-                $('#STR').val(data.parameter.STR);
-                $('#DEX').val(data.parameter.DEX);
-                $('#INT').val(data.parameter.INT);
-                $('#CON').val(data.parameter.CON);
-                $('#APP').val(data.parameter.APP);
-                $('#POW').val(data.parameter.POW);
-                $('#SIZ').val(data.parameter.SIZ);
-                $('#EDU').val(data.parameter.EDU);
-                setSubParameter('#INT', '#IDE');
-                setSubParameter('#POW', '#SAN');
-                setSubParameter('#POW', '#LUC');
-                setSubParameter('#EDU', '#KNW');
-                calcHP();
-                calcMP();
-                // SKILL
-                for(id in data.skill) {
-	                var skill = data.skill[id];
-                    $('#pre' + id).html(skill.total);
-                }
-            	alert('∩（＞ヮ＜）q＜ロードしたよーー！');
-            }
-        });
-    }
-    function sheet_save()
-    {
-          key_code = window.prompt('保存するデータの番号入れてください。');
-          var json_save = new Object();
-          json_save['profile'] = {
-            'name' : $('#name').val(),
-            'grade':  $('#grade').val(),
-            'club' : $('#club').val()
-          };
-          json_save['parameter'] = {
-            'STR' : $('#STR').val(),
-            'DEX' : $('#DEX').val(),
-            'INT' : $('#INT').val(),
-            'CON' : $('#CON').val(),
-            'APP' : $('#APP').val(),
-            'POW' : $('#POW').val(),
-            'SIZ' : $('#SIZ').val(),
-            'EDU' : $('#EDU').val(),
-            'SANNOW' : $('#SAN_NOW').val()
-          };
-          json_save['skill'] = new Object();
-          for (i = 1;i<=52;i++) {
-            json_save['skill'][i] = new Object();
-            json_save['skill'][i]['pre'] = $('#pre'+i).html();
-            json_save['skill'][i]['growth'] = $('#growth'+i).val();
-            json_save['skill'][i]['total'] = $('#total'+i).html();
-          };
-          $.ajax({
-            type : 'POST',
-            url  : './hkc_data.cgi?dt=ds&k=' + key_code,
-            data : 'parameter=' + JSON.stringify(json_save),
-            dataType: 'text',
-            success: function(code) {
-             alert("∩（＞ヮ＜）q＜セーブしたよーー！");
-            }
-          });
-    }
-    function sheet_load()
-    {
-          key_code = window.prompt('保存したデータの番号入れてください。');
-        $.ajax({
-            type: 'GET',
-            url: './hkc_data.cgi?dt=dl&k=' + key_code,
-            dataType: 'json',
-            success: function(data) {
-               if (!data.profile){alert('fail')};
-                //  データを取得できたので涼ちんハグしたい
-                $('#name').val(data.profile.name);
-                $('#grade').val(data.profile.grade);
-                $('#club').val(data.profile.club);
-            	// 能力値	
-                $('#STR').val(data.parameter.STR);
-                $('#DEX').val(data.parameter.DEX);
-                $('#INT').val(data.parameter.INT);
-                $('#CON').val(data.parameter.CON);
-                $('#APP').val(data.parameter.APP);
-                $('#POW').val(data.parameter.POW);
-                $('#SIZ').val(data.parameter.SIZ);
-                $('#EDU').val(data.parameter.EDU);
-                $('#SAN_NOW').val(data.parameter.SANNOW);
-                setSubParameter('#INT', '#IDE');
-                setSubParameter('#POW', '#SAN');
-                setSubParameter('#POW', '#LUC');
-                setSubParameter('#EDU', '#KNW');
-                calcHP();
-                calcMP();
-                // SKILL
-                for(id in data.skill) {
-	                var skill = data.skill[id];
-                    $('#pre' + id).html(skill.pre);
-                    $('#growth' + id).val(skill.growth);
-                    $('#total' + id).html(skill.total);
-                }
-                calc_total();
-            	alert('∩（＞ヮ＜）q＜ロードしたよーー！');
-            }
-        });
-
-    }
+  <script type="text/javascript" src="hkc_sheet.js"></script>
+  <script type="text/javascript">
     //  onReady Event Catch.
     $(document).ready(function(){
-        //  イベント作成
-        init_create_event();
-        calc_total();
+      //  イベント作成
+      init_create_event();
+      calc_total();
     });
   </script>
+  <link type="text/css" rel="stylesheet" href="hkc.css">
+  <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/blitzer/jquery-ui.css" rel="stylesheet">
 </head>
 <body>
-<header id="takusheet">
-<input type="button" onClick="init_load()" value="初期データ読込"> | 
-<input type="button" onClick="sheet_save()" value="保存"> | 
-<input type="button" onClick="sheet_load()" value="復元">
-</header>
-<div id="left">
-<table class="sheet" id="profile">
-    <tr><th>名前</th><td><input type="text" size="12" maxlength="12" id="name"></td></tr>
-    <tr><th>学年</th><td><input type="text" size="4" maxlength="4" id="grade"></td></tr>
-    <tr><th>部活</th><td><input type="text" size="8" maxlength="8" id="club"></td></tr>
-</table>
-<table class="sheet" id="parameter">
-  <tr>
+  <header id="takusheet">
+    <input type="button" onClick="init_load()" value="初期データ読込"> | 
+    <input type="button" onClick="sheet_save()" value="保存"> | 
+    <input type="button" onClick="sheet_load()" value="復元">
+  </header>
+  <div class="dialog" id="save_dialog">
+    シート名   <input type="text" id="data_name" /><br>
+    パスワード <input type="password" id="data_password" />
+  </div>
+  <div id="left">
+    <table class="sheet" id="profile">
+      <tr><th>名前</th><td><input type="text" size="12" maxlength="12" id="name"></td></tr>
+      <tr><th>学年</th><td><input type="text" size="4" maxlength="4" id="grade"></td></tr>
+      <tr><th>部活</th><td><input type="text" size="8" maxlength="8" id="club"></td></tr>
+    </table>
+    <table class="sheet" id="parameter">
+      <tr>
     <th>STR</th><td><input type="text" size="3" maxlength="3" id="STR"></td><th>幸運</th><td><input type="text" size="3" maxlength="3" id="LUC" readonly="readonly"></td>
   <tr></tr>
     <th>DEX</th><td><input type="text" size="3" maxlength="3" id="DEX"></td><th>知識</th><td><input type="text" size="3" maxlength="3" id="KNW" readonly="readonly"></td>
@@ -175,7 +60,7 @@
 </table>
 </div>
 <div id="middle">
-<table>
+<table class="skillsheet">
 <thead>
 <tr><th>技能名</th><th>作成直後</th><th>成長</th><th>合計</th></tr>
 </thead>
@@ -201,7 +86,7 @@
 </table>
 </div>
 <div id="middle-right">
-<table>
+<table class="skillsheet">
 <thead>
 <tr><th>技能名</th><th>作成直後</th><th>成長</th><th>合計</th></tr>
 </thead>
@@ -228,7 +113,7 @@
 </table>
 </div>
 <div id="right">
-<table>
+<table class="skillsheet">
 <thead>
 <tr><th>技能名</th><th>作成直後</th><th>成長</th><th>合計</th></tr>
 </thead>

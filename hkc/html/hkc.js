@@ -31,7 +31,8 @@ function calcSubParameterAndSkillPoint()
   calcTotalSkillPoint();
 }
 // 部活動で割り振れるポイントの計算
-function calcSkillClub(){
+function calcSkillClub()
+{
   //  最大値
   var max_skillpoint = $('#EDU').val() * 20;
   //  現在利用している値
@@ -47,7 +48,8 @@ function calcSkillClub(){
   }
 }
 // 自由に割り振れるポイントの計算
-function calcFreePoint(){
+function calcFreePoint()
+{
   //  最大値
   var max_skillpoint = $('#INT').val() * 10;
   //  現在利用している値
@@ -65,12 +67,35 @@ function calcFreePoint(){
 // 全ポイントの総計を取得
 function calcTotalSkillPoint()
 {
+  var club_count = 0;
   for (id=1;id<=skill_num;id++){
+    if ('99' ==  $('#club option:selected').val()) {
+      //  帰宅部だけの処理
+        if ('' != $('#club' + id).val() && 0 != $('#club' + id).val()) {
+          club_count++;
+          if (KITAKUBU_SKILL_NUM <= club_count) {
+            //  これ以上増やさせないの
+            emptySkillPointLock();
+          }
+        } else {
+          $('#club' + id).attr('readonly', false);
+          $('#club' + id).css('background', 'white');
+        }
+    }
     $('#total' +id).val(
       $('#prof'+id).val() * 1
     + $('#club'+id).val() * 1
     + $('#pre' +id).html() * 1
     );
+  }
+}
+function emptySkillPointLock()
+{
+  for (id=1;id<=skill_num;id++) {
+    if ('' == $('#club' + id).val() || 0 == $('#club' + id).val()) {
+      $('#club' + id).attr('readonly', true);
+      $('#club' + id).css('background', '#999');
+    }
   }
 }
 // 部活動で割り振れるポイント入力欄をロックする
@@ -86,20 +111,28 @@ function markUpSkill()
 {
   var club_id = $('#club option:selected').val();
   if ('' == club_id) {return;}
-  // スキル欄の初期化
+  //    スキル欄の初期化
   removeExtraArtisticSkill();
+  //    帰宅部
+  if ('99' == club_id) {
+    for (i = 1;i<=skill_num;i++) {
+        $('#club' + i).attr('readonly', false);
+        $('#club' + i).css('background', 'white');
+    }
+    return;
+  }
+  //    帰宅部以外
   var club_data = club[club_id];
   clubSkillPointLock();
   for (idx in club_data) {
     // 追加芸術?
     var skill_id = club_data[idx];
     if (100 < club_data[idx]) {
-	addExtraArtisticSkill(extra_art[club_data[idx]]);
-	skill_id = skill_num;
+	    addExtraArtisticSkill(extra_art[club_data[idx]]);
+	    skill_id = skill_num;
     };
     $('#club' + skill_id).attr('readonly', false);
     $('#club' + skill_id).css('background', 'white');
-   
   }
 }
 //  [芸術]技能の入力欄を追加する
@@ -121,18 +154,6 @@ function getArtisticSkillRow(name, default_point, id)
 {
   return "<tr id='row" + id + "'><td>" + name + "</td><td id='pre" + id + "'>" + default_point + "</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club" + id + "'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof" + id + "'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total" + id + "'></td></tr>";
 }
-//  onReady go!
-$(document).ready(function(){
-    //  URLにキーコードが含まれている場合はロードを行う
-    var url = $.url();
-    var param = $.url().param(); 
-    if (param.code) {
-        $('#sheeturl').val('?code=' + param.code);
-        $('#CODE').val(param.code);
-        load();
-    }
-    clubSkillPointLock();
-});
 //	∩（＞ヮ＜）q＜セーブしよー！
 function save()
 {
@@ -245,10 +266,10 @@ function execute_load()
         calcSubParameterAndSkillPoint();
         // SKILL
         for(id in data.skill) {
-	    var skill = data.skill[id];
-	    $('#club' + id).val(skill.club);
-            $('#prof' + id).val(skill.prof);
-            $('#total' + id).val(skill.total);
+	        var skill = data.skill[id];
+	        $('#club' + id).val(skill.club);
+          $('#prof' + id).val(skill.prof);
+          $('#total' + id).val(skill.total);
         }
     	alert('∩（＞ヮ＜）q＜ロードしたよーー！');
       }
