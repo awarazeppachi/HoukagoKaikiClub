@@ -157,6 +157,7 @@ function getArtisticSkillRow(name, default_point, id)
 //	∩（＞ヮ＜）q＜セーブしよー！
 function save()
 {
+  $('#dialog_password').css('display', 'block');
   $('#save_dialog').dialog({
     position: [100, 150],
     width: 400,
@@ -220,6 +221,7 @@ function execute_save()
 }
 function load()
 {
+  $('#dialog_password').css('display', 'none');
   $('#save_dialog').dialog({
     position: [100, 150],
     width: 400,
@@ -229,11 +231,11 @@ function load()
     title: "∩（＞ヮ＜）q＜ロードするよーー！",
     buttons: {
         "ロードする" : function(){
-            if ('' != $('#data_password').val() && '' != $('#data_name').val()) {
+            if ('' != $('#data_name').val()) {
                 execute_load();
                 $(this).dialog('close');
             } else {
-                alert("∩（＞ヮ＜）q＜シート名とパスワードがないよー！");
+                alert("∩（＞ヮ＜）q＜シート名がないよー！");
             }
         },
         "やめた" : function() {
@@ -247,9 +249,13 @@ function execute_load()
     $.ajax({
       type: 'POST',
       url: './hkc_data.cgi?dt=dl',
-      data: 'n=' + $('#data_name').val() + '&p=' + $('#data_password').val(),
+      data: 'n=' + $('#data_name').val(),
       dataType: 'json',
       success: function(data) {
+        if(!data){
+          alert('∩（＞ヮ＜）q＜ロードできなかったよーー！');
+          return;
+        }
         $('#name').val(data.profile.name);
         $('#grade').val(data.profile.grade);
         $('#club').val(data.profile.club);
@@ -266,8 +272,8 @@ function execute_load()
         calcSubParameterAndSkillPoint();
         // SKILL
         for(id in data.skill) {
-	        var skill = data.skill[id];
-	        $('#club' + id).val(skill.club);
+	      var skill = data.skill[id];
+	      $('#club' + id).val(skill.club);
           $('#prof' + id).val(skill.prof);
           $('#total' + id).val(skill.total);
         }

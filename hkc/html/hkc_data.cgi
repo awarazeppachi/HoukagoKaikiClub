@@ -21,25 +21,43 @@ sub load
 {
   my ($dataname, $password) = getParameter();
   my $filename = getDataFileName($dataname);
-  return dataload($filename, $password);
+  return dataload($filename);
 }
-sub dataload
+sub check_password
 {
   my ($filename, $password) = @_;
-  open $file, '<', $filename;
+  open my $file, '<', $filename;
   my   $data = <$file>;
   close $file;  
   my ($password_md5, $contents) = split("\e", $data);
   if ($password_md5 eq md5_hex($password)) {
-    return $contents;
+    return 1;
   } else {
-    return undef;
+    return 0;
   } 
+}
+sub dataload
+{
+  my ($filename) = @_;
+  open my $file, '<', $filename;
+  my   $data = <$file>;
+  close $file;  
+  my ($password_md5, $contents) = split("\e", $data);
+  return $contents;
 }
 sub datasave
 {
   my ($password, $dataname, $contents) = @_;
-  open my $file, ">" , getDataFileName($dataname);
+  my $filename = getDataFileName($dataname);
+  # 既に存在しているか?
+  if (-e $filename) {
+    # Fileが存在している
+    if (0 == check_password($filename, $password)) {
+      #残念、パスワードが違う
+      die 'password check failed...';
+    }
+  }
+  open my $file, ">" , $filename;
   print $file join("\e", md5_hex($password), $contents);
   close $file;  
 }
@@ -51,6 +69,5 @@ sub getParameter
 }
 sub getDataFileName
 {
-  my $key_code = shift;
-  return $main::data_dir . '/' . md5_hex($key_code);
+  return $main::data_dir . '/' . md5_hex(shift);
 }

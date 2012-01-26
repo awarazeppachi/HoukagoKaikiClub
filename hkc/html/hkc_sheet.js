@@ -5,6 +5,7 @@ function calc_total(){for (var id=1;id<=52;id++) {$('#total'+id).html($('#growth
 //  キャラクター作成支援ツールで作ったデータを読み込む
 function init_load()
 {
+  $('#dialog_password').css('display', 'none');
   $('#save_dialog').dialog({
     position: [100, 150],
     width: 400,
@@ -14,11 +15,11 @@ function init_load()
     title: "∩（＞ヮ＜）q＜ロードするよーー！",
     buttons: {
       "ロードする" : function(){
-        if ('' != $('#data_password').val() && '' != $('#data_name').val()) {
+        if ('' != $('#data_name').val()) {
           execute_init_load();
           $(this).dialog('close');
         } else {
-          alert("∩（＞ヮ＜）q＜シート名とパスワードがないよー！");
+          alert("∩（＞ヮ＜）q＜シート名がないよー！");
         }
       },
       "やめた" : function() {
@@ -32,9 +33,13 @@ function execute_init_load()
   $.ajax({
     type: 'GET',
     url: './hkc_data.cgi?dt=dl',
-    data: 'n=' + $('#data_name').val() + '&p=' + $('#data_password').val(),
+    data: 'n=' + $('#data_name').val(),
     dataType: 'json',
     success: function(data) {
+      if(!data){
+        alert('∩（＞ヮ＜）q＜ロードできなかったよーー！');
+        return;
+      }
       //  データを取得できたので涼ちんハグしたい
       $('#name').val(data.profile.name);
       $('#grade').val(data.profile.grade);
@@ -59,12 +64,13 @@ function execute_init_load()
 	      var skill = data.skill[id];
         $('#pre' + id).html(skill.total);
       }
-	    alert('∩（＞ヮ＜）q＜ロードしたよーー！');
+	  alert('∩（＞ヮ＜）q＜ロードしたよーー！');
     }
   });
 }
 function sheet_save()
 {
+  $('#dialog_password').css('display', 'block');
   $('#save_dialog').dialog({
     position: [100, 150],
     width: 400,
@@ -129,6 +135,7 @@ function execute_sheet_save()
 }
 function sheet_load()
 {
+  $('#dialog_password').css('display', 'none');
   $('#save_dialog').dialog({
     position: [100, 150],
     width: 400,
@@ -138,11 +145,11 @@ function sheet_load()
     title: "∩（＞ヮ＜）q＜ロードするよーー！",
     buttons: {
       "ロードする" : function(){
-        if ('' != $('#data_password').val() && '' != $('#data_name').val()) {
+        if ('' != $('#data_name').val()) {
           execute_sheet_load();
           $(this).dialog('close');
         } else {
-          alert("∩（＞ヮ＜）q＜シート名とパスワードがないよー！");
+          alert("∩（＞ヮ＜）q＜シート名がないよー！");
         }
       },
       "やめた" : function() {
@@ -156,9 +163,13 @@ function execute_sheet_load()
   $.ajax({
     type: 'GET',
     url: './hkc_data.cgi?dt=dl',
-    data: 'n=' + $('#data_name').val() + '&p=' + $('#data_password').val(),
+    data: 'n=' + $('#data_name').val(),
     dataType: 'json',
     success: function(data) {
+      if(!data){
+        alert('∩（＞ヮ＜）q＜ロードできなかったよーー！');
+        return;
+      }
       //  データを取得できたので涼ちんハグしたい
       $('#name').val(data.profile.name);
       $('#grade').val(data.profile.grade);
