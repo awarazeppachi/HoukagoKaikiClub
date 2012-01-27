@@ -12,6 +12,7 @@
   <script type="text/javascript" src="hkc_variable.js"></script>
   <script type="text/javascript" src="hkc_core.js"></script>
   <script type="text/javascript" src="hkc_sheet.js"></script>
+  <script type="text/javascript" src="sheet_ajax.js"></script>
   <script type="text/javascript">
     //  onReady Event Catch.
     $(document).ready(function(){
@@ -28,10 +29,14 @@
     <input type="button" onClick="init_load()" value="初期データ読込"> | 
     <input type="button" onClick="sheet_save()" value="保存"> | 
     <input type="button" onClick="sheet_load()" value="復元">
+    <input type="button" onClick="more_skill()" value="技能追加">
   </header>
   <div class="dialog" id="save_dialog">
     シート名   <input type="text" id="data_name" />
     <div id="dialog_password">パスワード <input type="password" id="data_password" /></div>
+  </div>
+  <div class="dialog" id="art_dialog">
+    追加する技能名   <input type="text" id="art_name" />
   </div>
   <div id="left">
     <table class="sheet" id="profile">

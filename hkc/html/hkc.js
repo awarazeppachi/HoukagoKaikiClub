@@ -42,6 +42,7 @@ function calcSkillClub()
   }
   $('#skill_club').html(max_skillpoint-sum);
   if (max_skillpoint-sum < 0) {
+    // WARNING!!ポイントオーバー
     warningHeader();
   } else {
     normalHeader();
@@ -89,6 +90,7 @@ function calcTotalSkillPoint()
     );
   }
 }
+//  帰宅部用。技能値が入力されていないものはロックする
 function emptySkillPointLock()
 {
   for (id=1;id<=skill_num;id++) {
@@ -135,11 +137,37 @@ function markUpSkill()
     $('#club' + skill_id).css('background', 'white');
   }
 }
+//  技能を追加する
+function addMoreSkill()
+{
+  $('#art_dialog').dialog({
+    position: [100, 150],
+    width: 400,
+    modal: true,
+    resizable: false,
+    draggable: false,
+    title: "追加する技能の名前を入力して下さい",
+    buttons: {
+      "追加する" : function(){
+        if ('' != $('#art_name').val()) {
+          skill_num++;
+          $('#skill_sheet_3').append(getArtisticSkillRow($('#art_name').val(), '00', skill_num));
+          $(this).dialog('close');
+        } else {
+          alert("技能名がありません");
+        }
+      },
+      "やめた" : function() {
+        $(this).dialog('close');
+      },
+    }
+  });
+}
 //  [芸術]技能の入力欄を追加する
 function addExtraArtisticSkill(name)
 {
   skill_num++;
-  $('#skill_sheet_3').append(getArtisticSkillRow('芸術/' + name, '05', skill_num));
+  $('#skill_sheet_3').append(getArtisticSkillRow('芸術/' + name, '00', skill_num));
 }
 // 削除
 function removeExtraArtisticSkill()
@@ -152,132 +180,6 @@ function removeExtraArtisticSkill()
 //
 function getArtisticSkillRow(name, default_point, id)
 {
-  return "<tr id='row" + id + "'><td>" + name + "</td><td id='pre" + id + "'>" + default_point + "</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club" + id + "'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof" + id + "'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total" + id + "'></td></tr>";
+  return "<tr id='row" + id + "'><td id='skill_name" + id + "'>" + name + "</td><td id='pre" + id + "'>" + default_point + "</td><td><input type='text' size='3' maxlength='3' onKeyUp='clubKeyUp()' id='club" + id + "'></td><td><input type='text' size='3' maxlength='3' onKeyUp='profKeyUp()' id='prof" + id + "'></td><td><input type='text' size='3' maxlength='3' readonly='readonly' id='total" + id + "'></td></tr>";
 }
-//	∩（＞ヮ＜）q＜セーブしよー！
-function save()
-{
-  $('#dialog_password').css('display', 'block');
-  $('#save_dialog').dialog({
-    position: [100, 150],
-    width: 400,
-    modal: true,
-    resizable: false,
-    draggable: false,
-    title: "∩（＞ヮ＜）q＜セーブするよーー！",
-    buttons: {
-        "セーブする" : function(){
-            if ('' != $('#data_password').val() && '' != $('#data_name').val()) {
-                execute_save();
-                $(this).dialog('close');
-            } else {
-                alert("∩（＞ヮ＜）q＜シート名とパスワードがないよー！");
-            }
-        },
-        "やめた" : function() {
-                $(this).dialog('close');
-        },
-    }
-  });
-}
-function execute_save()
-{
-  var json_save = new Object();
-  json_save['profile'] = {
-    'name' : $('#name').val(),
-    'grade':  $('#grade').val(),
-    'club' : $('#club option:selected').val()
-  };
-  json_save['parameter'] = {
-    'STR' : $('#STR').val(),
-    'DEX' : $('#DEX').val(),
-    'INT' : $('#INT').val(),
-    'CON' : $('#CON').val(),
-    'APP' : $('#APP').val(),
-    'POW' : $('#POW').val(),
-    'SIZ' : $('#SIZ').val(),
-    'EDU' : $('#EDU').val()
-  };
-  json_save['skill'] = new Object();
-  for (i = 1;i<=skill_num;i++) {
-    json_save['skill'][i] = new Object();
-    json_save['skill'][i]['club'] = $('#club'+i).val();
-    json_save['skill'][i]['prof'] = $('#prof'+i).val();
-    json_save['skill'][i]['total'] = $('#total'+i).val();
-  };
-  $.ajax({
-    type : 'POST',
-    url  : './hkc_data.cgi?dt=ds',
-    data : 'n=' + $('#data_name').val() + '&p=' + $('#data_password').val() + '&parameter=' + JSON.stringify(json_save) ,
-    dataType: 'json',
-    success: function(code) {
-     if('1' == code.status) {
-         alert("∩（＞ヮ＜）q＜セーブしたよーー！");
-     } else {
-         alert("∩（＞ヮ＜）q＜セーブできなかったよーー！");
-     }
-    }
-  });
-}
-function load()
-{
-  $('#dialog_password').css('display', 'none');
-  $('#save_dialog').dialog({
-    position: [100, 150],
-    width: 400,
-    modal: true,
-    resizable: false,
-    draggable: false,
-    title: "∩（＞ヮ＜）q＜ロードするよーー！",
-    buttons: {
-        "ロードする" : function(){
-            if ('' != $('#data_name').val()) {
-                execute_load();
-                $(this).dialog('close');
-            } else {
-                alert("∩（＞ヮ＜）q＜シート名がないよー！");
-            }
-        },
-        "やめた" : function() {
-                $(this).dialog('close');
-        },
-    }
-  });
-}
-function execute_load()
-{
-    $.ajax({
-      type: 'POST',
-      url: './hkc_data.cgi?dt=dl',
-      data: 'n=' + $('#data_name').val(),
-      dataType: 'json',
-      success: function(data) {
-        if(!data){
-          alert('∩（＞ヮ＜）q＜ロードできなかったよーー！');
-          return;
-        }
-        $('#name').val(data.profile.name);
-        $('#grade').val(data.profile.grade);
-        $('#club').val(data.profile.club);
-        markUpSkill();
-    	// 能力値	
-        $('#STR').val(data.parameter.STR);
-        $('#DEX').val(data.parameter.DEX);
-        $('#INT').val(data.parameter.INT);
-        $('#CON').val(data.parameter.CON);
-        $('#APP').val(data.parameter.APP);
-        $('#POW').val(data.parameter.POW);
-        $('#SIZ').val(data.parameter.SIZ);
-        $('#EDU').val(data.parameter.EDU);
-        calcSubParameterAndSkillPoint();
-        // SKILL
-        for(id in data.skill) {
-	      var skill = data.skill[id];
-	      $('#club' + id).val(skill.club);
-          $('#prof' + id).val(skill.prof);
-          $('#total' + id).val(skill.total);
-        }
-    	alert('∩（＞ヮ＜）q＜ロードしたよーー！');
-      }
-    });
-}
+

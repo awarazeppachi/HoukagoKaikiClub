@@ -12,6 +12,7 @@
   <script type="text/javascript" src="hkc_variable.js"></script>
   <script type="text/javascript" src="hkc_core.js"></script>
   <script type="text/javascript" src="hkc.js"></script>
+  <script type="text/javascript" src="hkc_ajax.js"></script>
   <script type="text/javascript">
     // onReady!
     $(document).ready(function(){
@@ -27,22 +28,26 @@
   <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/blitzer/jquery-ui.css" rel="stylesheet" />
 </head>
 <body>
-<header id="create">
-<div>
-  <span class="club_point_title">部活動技能ポイント残り</span>
-  <span id="skill_club">0</span>
-  <span class="free_point_title">一般技能ポイント残り</span>
-  <span id="skill_free">0</span>
-</div>
-<hr>
-<input type="button" value="能力値を振る" onClick="parameter()">
-<input type="button" value="セーブ" onClick="save()">
-<input type="button" value="ロード" onClick="load()">
-</header>
-<div class="dialog" id="save_dialog">
+  <header id="create">
+    <div>
+      <span class="club_point_title">部活動技能ポイント残り</span>
+      <span id="skill_club">0</span>
+      <span class="free_point_title">一般技能ポイント残り</span>
+      <span id="skill_free">0</span>
+    </div>
+    <hr>
+    <input type="button" value="能力値を振る" onClick="parameter()">
+    <input type="button" value="セーブ" onClick="save()">
+    <input type="button" value="ロード" onClick="load()">
+    <input type="button" onClick="addMoreSkill()" value="技能追加">
+  </header>
+  <div class="dialog" id="save_dialog">
     シート名   <input type="text" id="data_name" />
     <div id="dialog_password">パスワード <input type="password" id="data_password" /></div>
-</div>
+  </div>
+  <div class="dialog" id="art_dialog">
+    追加する技能名   <input type="text" id="art_name" />
+  </div>
 <div id="left">
 <table class="sheet" id="profile">
 <tr><th>名前</th><td><input type="text" size="15" maxlength="15" id="name"></td></tr>
