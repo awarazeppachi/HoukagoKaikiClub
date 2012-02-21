@@ -1,0 +1,88 @@
+table{
+  width: 100%;
+}
+@media print {
+    header{
+        display:none;
+    }
+    .sheet input {
+        border: 0;
+    }
+    .skillsheet td input{
+        border: 0;
+    }
+
+}
+@media screen{
+    header#create{
+      background:black;
+      color: white;
+      font-size: large;
+      padding: 0.5em;
+      border-radius: 15px;
+      box-shadow: 3px 3px 3px #333;
+      margin: 0.5em;
+    }
+    header#takusheet{
+      background:black;
+      color: white;
+      margin:0;
+      padding: 0.1em;
+    }
+    header#takusheet input {
+	    line-height: 3em; 
+	    padding-top: 3px;
+	    padding-right: 1em;
+	    padding-bottom: 3px;
+	    padding-left: 1em;
+        background:#EEF;
+        color:black;
+        border:#AAC 1px solid;
+    }
+}
+.club_point_title{
+  padding:0.1em 0.5em;
+}
+.free_point_title{
+  padding:0.1em 0.5em;
+}
+tr.title th{
+  background:#AEC;
+  text-align: left;
+  padding: 0.2em;
+  border-bottom: 1px #6A9 solid;
+}
+#left{
+  float:left;
+  left:0;
+  width:19%
+}
+#middle{
+  float:left;
+  width:27%;
+}
+#middle-right{
+  float:left;
+  width:27%;
+}
+#right{
+  float:left;
+  width:27%;
+}
+.innocentblue{
+    background:#EEF;
+}
+.sprashred{
+    background:#FEE;
+}
+.neuegreen{
+    background:#EFE;
+}
+.dialog{
+    display: none;
+    background:#FEE;
+    width: 600px;
+}
+.skillsheet td{
+    border-bottom: 1px solid black;
+}
