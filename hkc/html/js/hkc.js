@@ -151,7 +151,7 @@ function addMoreSkill()
       "追加する" : function(){
         if ('' != $('#art_name').val()) {
           skill_num++;
-          $('#skill_sheet_3').append(getArtisticSkillRow($('#art_name').val(), '00', skill_num));
+          $('#skill').append(getArtisticSkillRow($('#art_name').val(), '00', skill_num));
           $(this).dialog('close');
         } else {
           alert("技能名がありません");
@@ -167,7 +167,7 @@ function addMoreSkill()
 function addExtraArtisticSkill(name)
 {
   skill_num++;
-  $('#skill_sheet_3').append(getArtisticSkillRow('芸術/' + name, '00', skill_num));
+  $('#skill').append(getArtisticSkillRow('芸術/' + name, '05', skill_num));
 }
 // 削除
 function removeExtraArtisticSkill()
